@@ -10,7 +10,7 @@ const {
 
 const CreateWorkerAccount = require("../models/CreateWorkerAccount");
 
-// ================== read ===================== //
+// ================== CRUD ===================== //
 router.get("/get-all-worker-account", getAllWorkers);
 router.post("/worker-account", createWorker);
 router.patch("/worker-account/:id", updateOneWorker);
