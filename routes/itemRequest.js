@@ -11,9 +11,9 @@ const {
 const ItemRequest = require("../models/WorkerRequest");
 
 // =================== CRUD ==========================//
-router.get("/item-request/:account_id", getOneItemRequest);
-router.post("/item-request", createItemRequest);
-router.patch("/item-request/:id", updateItemRequest);
-router.delete("/item-request/:id", deleteItemRequest);
+router.get("/:account_id", getOneItemRequest); // this is to get all item_request for one account
+router.post("/create", createItemRequest);
+router.patch("/:id", updateItemRequest);
+router.delete("/:id", deleteItemRequest);
 
 module.exports = router;

@@ -79,6 +79,7 @@ const WorkerRequestSchema = new mongoose.Schema(
     },
     delivery_address: { type: String },
   },
+  { collection: "item_request" },
   { timestamps: true }
 );
 

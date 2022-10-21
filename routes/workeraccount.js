@@ -11,8 +11,8 @@ const {
 const CreateWorkerAccount = require("../models/CreateWorkerAccount");
 
 // ================== CRUD ===================== //
-router.get("/get-all-worker-account", getAllWorkers);
-router.post("/worker-account", createWorker);
-router.patch("/worker-account/:id", updateOneWorker);
-router.delete("/worker-account/:id", deleteOneWorker);
+router.get("/all", getAllWorkers);
+router.post("/create", createWorker);
+router.patch("/:id", updateOneWorker);
+router.delete("/:id", deleteOneWorker);
 module.exports = router;
