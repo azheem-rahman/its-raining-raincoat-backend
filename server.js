@@ -23,4 +23,6 @@ connectDB();
 app.use("/worker_account", workerAccount);
 app.use("/item_request", itemRequest);
 app.use("/donate", donateItems);
-app.listen(5001);
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT);

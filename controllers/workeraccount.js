@@ -14,6 +14,7 @@ const getAllWorkers = async (req, res) => {
 // ================ create =================== //
 const createWorker = async (req, res) => {
   const createdWorker = new CreateWorkerAccount({
+    account_id: req.body.account_id,
     name_salutation: req.body.salution,
     full_name: req.body.full_name,
     nationality: req.body.nationality,
