@@ -1,12 +1,5 @@
-// const db = require("../db");
-// const WorkerSeed = require("../models/plant");
-
-// // Connect to the database
-// db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// const main = async () => {
-//   const workers = [
 //     {
+//       account_id: 100101,
 //       full_name: "Abdul Rahman bin Salleh",
 //       nationality: "bangladesh",
 //       resident_status: "Work Permit",
@@ -20,6 +13,7 @@
 //       diet: "Vegetarian",
 //     },
 //     {
+//       account_id: 100102,
 //       full_name: "Rahaman Bin Loukash",
 //       nationality: "bangladesh",
 //       resident_status: "Work Permit",
@@ -33,6 +27,7 @@
 //       diet: "Vegetarian",
 //     },
 //     {
+//       account_id: 100103
 //       full_name: "Wen Bin",
 //       nationality: "china",
 //       resident_status: "Work Permit",
@@ -44,13 +39,3 @@
 //       diet: "None",
 //     },
 //   ];
-
-//   await WorkerSeed.insertMany(workers);
-//   console.log("Created some workers!");
-// };
-// const run = async () => {
-//   await main();
-//   db.close();
-// };
-
-// run();

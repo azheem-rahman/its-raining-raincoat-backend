@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const DonateItemsSchema = new mongoose.Schema(
   {
     account_id: { type: Number, unique: true },
-    donation_id: { uuid },
     area_select: {
       type: String,
       required: true,
@@ -34,7 +33,8 @@ const DonateItemsSchema = new mongoose.Schema(
       enum: ["Pending Review", "Pending Drop-Off"],
     },
   },
- { timestamps: true }
+  { collection: "donation_items" },
+  { timestamps: true }
 );
 
 const DonateItems = mongoose.model("DonateItems", DonateItemsSchema);

@@ -8,6 +8,10 @@ const workerAccount = require("./routes/workeraccount");
 
 const ItemRequest = require("./models/WorkerRequest");
 const itemRequest = require("./routes/itemRequest");
+
+const DonateItems = require("./models/DonateItems");
+const donateItems = require("./routes/donateItems");
+
 const app = express();
 
 // --- middleware --- //
@@ -18,4 +22,5 @@ connectDB();
 
 app.use("/worker_account", workerAccount);
 app.use("/item_request", itemRequest);
+app.use("/donate", donateItems);
 app.listen(5001);

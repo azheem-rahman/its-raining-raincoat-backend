@@ -1,10 +1,13 @@
 const itemRequest = require("../models/WorkerRequest");
 
 // ===================== read ====================== //;
-const getOneItemRequest = async (req, res) => {
-  const request = await WorkerRequest.findOne({ account_id });
+
+// * this is to find all items within one account */
+const getSingleAccountRequest = async (req, res) => {
+  const request = await itemRequest.findOne({ account_id });
   res.json(request);
 };
+
 // ===================== create ====================== //;
 const createItemRequest = async (req, res) => {
   const createRequest = new itemRequest({
@@ -35,12 +38,12 @@ const updateItemRequest = async (req, res) => {
 // ===================== delete ====================== //;
 const deleteItemRequest = async (req, res) => {
   const { id } = req.body;
-  await WorkerRequest.deleteOne({ id });
+  await itemRequest.deleteOne({ id });
   res.json({ status: "ok", message: "one item deleted" });
 };
 
 module.exports = {
-  getOneItemRequest,
+  getSingleAccountRequest,
   createItemRequest,
   updateItemRequest,
   deleteItemRequest,

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const WorkerRequestSchema = new mongoose.Schema(
   {
-    account_id: { type: Number, unique: true },
+    account_id: { type: Number },
     // ------------------------------------------------------------------------------------------------------------------
     // item_request_category & item_request_detail set to "true" in Phase 1. When text/image feature is launched, to deactivate to "false"
     // *** check with team whether want to limit to 3 items ***

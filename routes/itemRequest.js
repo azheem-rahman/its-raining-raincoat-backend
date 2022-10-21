@@ -2,7 +2,7 @@ const express = require("express");
 const { Router } = require("express");
 const router = express.Router();
 const {
-  getOneItemRequest,
+  getSingleAccountRequest,
   createItemRequest,
   updateItemRequest,
   deleteItemRequest,
@@ -11,7 +11,7 @@ const {
 const ItemRequest = require("../models/WorkerRequest");
 
 // =================== CRUD ==========================//
-router.get("/:account_id", getOneItemRequest); // this is to get all item_request for one account
+router.get("/:account_id", getSingleAccountRequest);
 router.post("/create", createItemRequest);
 router.patch("/:id", updateItemRequest);
 router.delete("/:id", deleteItemRequest);
