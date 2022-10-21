@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const UserLoginSchema = new mongoose.Schema({
   // * to figure out continuing integer in mongoDB */
-  account_id: { type: Number, required: true, unique: true },
+  account_id: { type: Number, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   user_type: { type: String, enum: ["Donor", "Worker", "Volunteer"] },

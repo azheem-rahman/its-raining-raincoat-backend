@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const CreateWorkerAccountSchema = new mongoose.Schema(
   {
-    account_id: { type: Number, unique: true },
+    account_id: { type: Number },
     salutation: { type: String, enum: ["Mr", "Ms", "Mrs"] },
     full_name: { type: String, required: true, minLength: 5 },
     nationality: { type: String, required: true, enum: [] },
