@@ -15,6 +15,7 @@ const login = async (req, res) => {
           status: "ok",
           message: "login successful",
           id: found.account_id,
+          persona: found.user_type,
         });
       } else {
         res.json({ status: "error", message: "invalid username or password" });
