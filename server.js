@@ -10,18 +10,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 connectDB();
 
-const WorkerProfiles = require("./models/WorkerProfiles");
-const workerProfileRouter = require("./routes/workerProfileRouter");
+const profiles = require("./routes/workerProfileRouter");
 
-const ItemRequest = require("./models/WorkerRequest");
 const itemRequest = require("./routes/itemRequest");
 
-const DonateItems = require("./models/DonateItems");
 const donateItems = require("./routes/donateItems");
 
 const users = require("./routes/userRouter");
 
-app.use("/profile", workerProfileRouter);
+app.use("/profile", profiles);
 app.use("/item_request", itemRequest);
 app.use("/donate", donateItems);
 app.use("/user", users);

@@ -11,7 +11,11 @@ const login = async (req, res) => {
 
     if (found) {
       if (found.password === req.body.password) {
-        res.json({ status: "ok", message: "login successful" });
+        res.json({
+          status: "ok",
+          message: "login successful",
+          id: found.account_id,
+        });
       } else {
         res.json({ status: "error", message: "invalid username or password" });
       }
@@ -34,16 +38,18 @@ const create = async (req, res) => {
     });
 
     if (found === null) {
+      const newId = uuidv4();
+
       await Users.create(
         {
-          account_id: uuidv4(),
+          account_id: newId,
           username: req.body.username.toLowerCase(),
           password: req.body.password,
           user_type: req.body.user_type,
         },
         (err, data) => {
           console.log("user created", data);
-          res.json({ status: "ok", message: "user created" });
+          res.json({ status: "ok", message: "user created", id: newId });
         }
       );
     } else {
