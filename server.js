@@ -2,9 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db/db");
 const cors = require("cors");
+const app = express();
 
-const CreateWorkerAccount = require("./models/CreateWorkerAccount");
-const workerAccount = require("./routes/workeraccount");
+// --- middleware --- //
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+connectDB();
+
+const WorkerProfiles = require("./models/WorkerProfiles");
+const workerProfileRouter = require("./routes/workerProfileRouter");
 
 const ItemRequest = require("./models/WorkerRequest");
 const itemRequest = require("./routes/itemRequest");
@@ -14,15 +21,7 @@ const donateItems = require("./routes/donateItems");
 
 const users = require("./routes/userRouter");
 
-const app = express();
-
-// --- middleware --- //
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-connectDB();
-
-app.use("/worker_account", workerAccount);
+app.use("/profile", workerProfileRouter);
 app.use("/item_request", itemRequest);
 app.use("/donate", donateItems);
 app.use("/user", users);
