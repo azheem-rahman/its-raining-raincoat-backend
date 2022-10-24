@@ -12,6 +12,8 @@ const itemRequest = require("./routes/itemRequest");
 const DonateItems = require("./models/DonateItems");
 const donateItems = require("./routes/donateItems");
 
+const users = require("./routes/userRouter");
+
 const app = express();
 
 // --- middleware --- //
@@ -23,6 +25,9 @@ connectDB();
 app.use("/worker_account", workerAccount);
 app.use("/item_request", itemRequest);
 app.use("/donate", donateItems);
+app.use("/user", users);
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server started on Port ${PORT}`);
+});
