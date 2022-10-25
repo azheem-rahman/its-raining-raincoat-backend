@@ -5,8 +5,18 @@ const ItemRequest = require("../models/ItemRequest");
 
 // * this is to find all items within one account */
 const getSingleAccountRequest = async (req, res) => {
-  const request = await ItemRequest.findOne({ account_id });
-  res.json(request);
+  try {
+    console.log(req.params);
+    const request = await ItemRequest.find({
+      account_id: req.params.account_id,
+    });
+    res.json(request);
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(400)
+      .json({ status: "ok", message: "failed to retrieve applications" });
+  }
 };
 
 // ===================== create ====================== //;
