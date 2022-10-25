@@ -21,10 +21,12 @@ const createItemRequest = async (req, res) => {
         account_id: request.account_id,
         request_id: requestId,
         item: request.name.toLowerCase(),
-        item_text_request: request?.item_text_request.toLowerCase(),
-        item_photo_request: request?.item_photo_request.toLowerCase(),
+        item_text_request: request.item_text_request.toLowerCase(),
+        item_photo_request: request.item_photo_request.toLowerCase(),
         item_delivery: request.delivery_method.toLowerCase(),
-        delivery_address: request?.delivery_address.toLowerCase(),
+        delivery_address: request.delivery_address.toLowerCase(),
+        icon: request.icon,
+        status: request.status,
       });
       await createRequest.save();
     }
@@ -45,6 +47,8 @@ const updateItemRequest = async (req, res) => {
     item_photo_request: req.body.item_photo_request,
     item_delivery: req.body.item_delivery,
     delivery_address: req.body.delivery_address,
+    icon: req.body,
+    status: req.status,
   });
   res.json({ status: "ok", message: "item updated" });
 };
