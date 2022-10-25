@@ -12,7 +12,7 @@ connectDB();
 
 const profiles = require("./routes/workerProfileRouter");
 
-const itemRequest = require("./routes/itemRequest");
+const itemRequest = require("./routes/itemRequestRouter");
 
 const donateItems = require("./routes/donateItems");
 
