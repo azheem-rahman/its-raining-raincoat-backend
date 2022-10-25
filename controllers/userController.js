@@ -64,7 +64,33 @@ const create = async (req, res) => {
 // ===================== update ====================== //;
 // ===================== delete ====================== //;
 
+// ===================== logout ====================== //;
+const logout = async (req, res) => {
+  try {
+    // delete client localStorage -- replace with null
+    res.json(() => {
+      message: "logout successful";
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("persona");
+      localStorage.removeItem("id");
+    });
+
+    // // to store refresh token from login response to localstorage
+    // localStorage.setItem("refreshToken", res.refreshToken);
+
+    // // to store persona from login response to localstorage
+    // localStorage.setItem("persona", res.persona);
+
+    // // to store userId from login response to localstorage
+    // localStorage.setItem("id", res.id);
+  } catch (err) {
+    console.error(err.message);
+    res.status(400).json({ status: "error", message: "failed to logout" });
+  }
+};
+
 module.exports = {
   login,
   create,
+  logout,
 };
