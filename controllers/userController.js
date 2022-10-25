@@ -11,12 +11,41 @@ const login = async (req, res) => {
 
     if (found) {
       if (found.password === req.body.password) {
-        res.json({
+        // create payload
+        const payload = {
+          id: found.account_id,
+          persona: found.user_type,
+        };
+
+        // create access token
+        const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+          expiresIn: "20m",
+          jwtid: uuidv4(),
+        });
+
+        // create refresh token
+        const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+          expiresIn: "30d",
+          jwtid: uuidv4(),
+        });
+
+        const response = {
           status: "ok",
           message: "login successful",
           id: found.account_id,
           persona: found.user_type,
-        });
+          accessToken,
+          refreshToken,
+        };
+
+        res.json(response);
+
+        // res.json({
+        //   status: "ok",
+        //   message: "login successful",
+        //   id: found.account_id,
+        //   persona: found.user_type,
+        // });
       } else {
         res.json({ status: "error", message: "invalid username or password" });
       }
