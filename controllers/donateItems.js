@@ -1,15 +1,15 @@
-const donateItems = require("../models/DonateItems");
+const DonateItems = require("../models/DonateItems");
 
 // ===================== read ====================== //;
 const getOneDonationItem = async (req, res) => {
-  const request = await donateItems.findOne({ id });
+  const request = await DonateItems.findOne({ id });
   res.json(request);
 };
 
 // ===================== create ====================== //;
 const createDonationItem = async (req, res) => {
   try {
-    const createDonation = new donateItems({
+    const createDonation = new DonateItems({
       account_id: req.body.account_id,
       area_select: req.body.area_select,
       dropoff: req.body.dropoff,
@@ -31,7 +31,7 @@ const createDonationItem = async (req, res) => {
 
 // ===================== update ====================== //;
 const updateDonation = async (req, res) => {
-  const update = new donateItems({
+  const update = new DonateItems({
     area_select: req.body.area_select,
     dropoff: req.body.dropoff,
     donation_category: req.body.donation_category,
@@ -48,7 +48,7 @@ const updateDonation = async (req, res) => {
 // ===================== delete ====================== //;
 const deleteDonation = async (req, res) => {
   const { id } = req.body;
-  await donateItems.deleteOne({ id });
+  await DonateItems.deleteOne({ id });
   res.json({ status: "ok", message: "donation item deleted" });
 };
 
