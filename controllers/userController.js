@@ -3,25 +3,30 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const Users = require("../models/Users");
+const WorkerProfiles = require("../models/WorkerProfiles");
 
 // ===================== read ====================== //;
 const login = async (req, res) => {
   try {
-    const found = await Users.findOne({
+    const foundUser = await Users.findOne({
       username: req.body.username.toLowerCase(),
     });
 
-    const result = await bcrypt.compare(req.body.password, found.password);
+    const foundProfile = await WorkerProfiles.findOne({
+      account_id: foundUser.account_id,
+    });
 
-    if (found) {
+    const result = await bcrypt.compare(req.body.password, foundUser.password);
+
+    if (foundUser) {
       // added in to compare bcrypt password instead
       if (result) {
-        // if (found.password === req.body.password) {
+        // if (foundUser.password === req.body.password) {
 
         // create payload
         const payload = {
-          id: found.account_id,
-          persona: found.user_type,
+          id: foundUser.account_id,
+          persona: foundUser.user_type,
         };
 
         // create access token
@@ -36,22 +41,34 @@ const login = async (req, res) => {
           jwtid: uuidv4(),
         });
 
-        const response = {
-          status: "ok",
-          message: "login successful",
-          id: found.account_id,
-          persona: found.user_type,
-          accessToken,
-          refreshToken,
-        };
+        if (foundProfile) {
+          const response = {
+            status: "ok",
+            message: "login successful",
+            id: foundUser.account_id,
+            persona: foundUser.user_type,
+            accessToken,
+            refreshToken,
+          };
 
-        res.json(response);
+          res.json(response);
+        } else {
+          const response = {
+            status: "incomplete",
+            message: "login successful, no profile found",
+            id: foundUser.account_id,
+            persona: foundUser.user_type,
+            accessToken,
+            refreshToken,
+          };
+          res.json(response);
+        }
 
         // res.json({
         //   status: "ok",
         //   message: "login successful",
-        //   id: found.account_id,
-        //   persona: found.user_type,
+        //   id: foundUser.account_id,
+        //   persona: foundUser.user_type,
         // });
       } else {
         res.json({ status: "error", message: "invalid username or password" });
