@@ -80,6 +80,24 @@ const create = async (req, res) => {
       // add in bcrypt to password when creating account
       const password = await bcrypt.hash(req.body.password, 12);
 
+      // create payload
+      const payload = {
+        id: newId,
+        persona: req.body.user_type,
+      };
+
+      // create access token
+      const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+        expiresIn: "20m",
+        jwtid: uuidv4(),
+      });
+
+      // create refresh token
+      const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+        expiresIn: "30d",
+        jwtid: uuidv4(),
+      });
+
       await Users.create(
         {
           account_id: newId,
@@ -92,6 +110,17 @@ const create = async (req, res) => {
           res.json({ status: "ok", message: "user created", id: newId });
         }
       );
+
+      const response = {
+        status: "ok",
+        message: "user created successfully",
+        id: newId,
+        persona: req.body.user_type,
+        accessToken,
+        refreshToken,
+      };
+
+      res.json(response);
     } else {
       res.json({ status: "error", message: "username taken" });
     }
