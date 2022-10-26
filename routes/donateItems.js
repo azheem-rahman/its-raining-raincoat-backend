@@ -19,6 +19,6 @@ router.get("/:id", getSingleAccountRequest);
 // router.get("/:id", getOneDonationItem);
 router.post("/create", createDonationItem);
 router.patch("/:id", updateDonation);
-// router.delete("/:id", deleteDonation);
+router.delete("/:donate_id", deleteDonation);
 
 module.exports = router;
