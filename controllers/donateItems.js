@@ -1,10 +1,29 @@
 const DonateItems = require("../models/DonateItems");
 
 // ===================== read ====================== //;
-const getOneDonationItem = async (req, res) => {
-  const request = await DonateItems.findOne({ id });
-  res.json(request);
+
+// to find all Donation Items within 1 account //
+const getSingleAccountRequest = async (req, res) => {
+  try {
+    const request = await DonateItems.find({
+      account_id: req.params.account_id,
+    });
+    const count = await DonateItems.countDocuments({
+      account_id: req.params.account_id,
+    });
+    res.json({ data: [...request], count });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(400)
+      .json({ status: "error", message: "failed to retrieve applications" });
+  }
 };
+
+// const getOneDonationItem = async (req, res) => {
+//   const request = await DonateItems.findOne({ id });
+//   res.json(request);
+// };
 
 // ===================== create ====================== //;
 const createDonationItem = async (req, res) => {
@@ -53,7 +72,8 @@ const deleteDonation = async (req, res) => {
 };
 
 module.exports = {
-  getOneDonationItem,
+  getSingleAccountRequest,
+  // getOneDonationItem,
   createDonationItem,
   updateDonation,
   deleteDonation,
