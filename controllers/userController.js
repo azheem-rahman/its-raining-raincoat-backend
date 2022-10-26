@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+
 const Users = require("../models/Users");
 
 // ===================== read ====================== //;
@@ -10,8 +11,13 @@ const login = async (req, res) => {
       username: req.body.username.toLowerCase(),
     });
 
+    const result = await bcrypt.compare(req.body.password, found.password);
+
     if (found) {
-      if (found.password === req.body.password) {
+      // added in to compare bcrypt password instead
+      if (result) {
+        // if (found.password === req.body.password) {
+
         // create payload
         const payload = {
           id: found.account_id,
@@ -71,11 +77,14 @@ const create = async (req, res) => {
     if (found === null) {
       const newId = uuidv4();
 
+      // add in bcrypt to password when creating account
+      const password = await bcrypt.hash(req.body.password, 12);
+
       await Users.create(
         {
           account_id: newId,
           username: req.body.username.toLowerCase(),
-          password: req.body.password,
+          password: password,
           user_type: req.body.user_type,
         },
         (err, data) => {
@@ -94,33 +103,7 @@ const create = async (req, res) => {
 // ===================== update ====================== //;
 // ===================== delete ====================== //;
 
-// ===================== logout ====================== //;
-const logout = async (req, res) => {
-  try {
-    // delete client localStorage -- replace with null
-    res.json(() => {
-      message: "logout successful";
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("persona");
-      localStorage.removeItem("id");
-    });
-
-    // // to store refresh token from login response to localstorage
-    // localStorage.setItem("refreshToken", res.refreshToken);
-
-    // // to store persona from login response to localstorage
-    // localStorage.setItem("persona", res.persona);
-
-    // // to store userId from login response to localstorage
-    // localStorage.setItem("id", res.id);
-  } catch (err) {
-    console.error(err.message);
-    res.status(400).json({ status: "error", message: "failed to logout" });
-  }
-};
-
 module.exports = {
   login,
   create,
-  logout,
 };
