@@ -5,8 +5,20 @@ const ItemRequest = require("../models/ItemRequest");
 
 // * this is to find all items within one account */
 const getSingleAccountRequest = async (req, res) => {
-  const request = await ItemRequest.findOne({ account_id });
-  res.json(request);
+  try {
+    const request = await ItemRequest.find({
+      account_id: req.params.account_id,
+    });
+    const count = await ItemRequest.countDocuments({
+      account_id: req.params.account_id,
+    });
+    res.json({ data: [...request], count });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(400)
+      .json({ status: "error", msesage: "failed to retrieve applications" });
+  }
 };
 
 // ===================== create ====================== //;
@@ -55,9 +67,15 @@ const updateItemRequest = async (req, res) => {
 
 // ===================== delete ====================== //;
 const deleteItemRequest = async (req, res) => {
-  const { id } = req.body;
-  await ItemRequest.deleteOne({ id });
-  res.json({ status: "ok", message: "one item deleted" });
+  try {
+    await ItemRequest.deleteOne({ request_id: req.params.request_id });
+    res.json({ status: "ok", message: "one item deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(400)
+      .json({ status: "error", message: "failed to delete item request" });
+  }
 };
 
 module.exports = {
