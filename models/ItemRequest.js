@@ -66,6 +66,11 @@ const ItemRequestsSchema = new mongoose.Schema(
       enum: ["delivery", "pickup"],
     },
     delivery_address: { type: String },
+    icon: { type: String },
+    status: {
+      type: String,
+      enum: ["approve", "rejected", "completed", "pending"],
+    },
   },
   { collection: "item_request", timestamps: true }
 );

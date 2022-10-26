@@ -10,7 +10,7 @@ const {
 // =================== CRUD ==========================//
 router.get("/:account_id", getSingleAccountRequest);
 router.put("/create", createItemRequest);
-router.patch("/:id", updateItemRequest);
-router.delete("/:id", deleteItemRequest);
+router.patch("/:request_id", updateItemRequest);
+router.delete("/:request_id", deleteItemRequest);
 
 module.exports = router;

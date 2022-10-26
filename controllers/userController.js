@@ -1,27 +1,21 @@
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const Users = require("../models/Users");
 
 // ===================== read ====================== //;
 const login = async (req, res) => {
   try {
-    const user = await Users.findOne({
+    const found = await Users.findOne({
       username: req.body.username.toLowerCase(),
     });
 
-    const result = await bcrypt.compare(req.body.password, user.password);
-
-    if (user) {
-      // added in to compare bcrypt password instead
-      if (result) {
-        // if (user.password === req.body.password) {
-
+    if (found) {
+      if (found.password === req.body.password) {
         // create payload
         const payload = {
-          id: user.account_id,
-          persona: user.user_type,
+          id: found.account_id,
+          persona: found.user_type,
         };
 
         // create access token
@@ -39,8 +33,8 @@ const login = async (req, res) => {
         const response = {
           status: "ok",
           message: "login successful",
-          id: user.account_id,
-          persona: user.user_type,
+          id: found.account_id,
+          persona: found.user_type,
           accessToken,
           refreshToken,
         };
@@ -50,8 +44,8 @@ const login = async (req, res) => {
         // res.json({
         //   status: "ok",
         //   message: "login successful",
-        //   id: user.account_id,
-        //   persona: user.user_type,
+        //   id: found.account_id,
+        //   persona: found.user_type,
         // });
       } else {
         res.json({ status: "error", message: "invalid username or password" });
@@ -77,18 +71,18 @@ const create = async (req, res) => {
     if (found === null) {
       const newId = uuidv4();
 
-      // add in bcrypt to password when creating account
-      const password = await bcrypt.hash(req.body.password, 12);
-
-      await Users.create({
-        account_id: newId,
-        username: req.body.username.toLowerCase(),
-        password: password,
-        user_type: req.body.user_type,
-      });
-
-      console.log("user created", data);
-      res.json({ status: "ok", message: "user created", id: newId });
+      await Users.create(
+        {
+          account_id: newId,
+          username: req.body.username.toLowerCase(),
+          password: req.body.password,
+          user_type: req.body.user_type,
+        },
+        (err, data) => {
+          console.log("user created", data);
+          res.json({ status: "ok", message: "user created", id: newId });
+        }
+      );
     } else {
       res.json({ status: "error", message: "username taken" });
     }
