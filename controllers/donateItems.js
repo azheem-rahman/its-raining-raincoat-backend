@@ -6,10 +6,10 @@ const DonateItems = require("../models/DonateItems");
 const getSingleAccountRequest = async (req, res) => {
   try {
     const request = await DonateItems.find({
-      account_id: req.params.account_id,
+      account_id: req.params.id,
     });
     const count = await DonateItems.countDocuments({
-      account_id: req.params.account_id,
+      account_id: req.params.id,
     });
     res.json({ data: [...request], count });
   } catch (err) {
@@ -33,12 +33,13 @@ const createDonationItem = async (req, res) => {
       area_select: req.body.area_select,
       dropoff: req.body.dropoff,
       donation_category: req.body.donation_category,
-      donation_item: req.body.donation_item,
+      donation_details: req.body.donation_details,
       donate_quantity: req.body.donate_quantity,
       item_condition: req.body.item_condition,
       item_photo: req.body.item_photo,
       item_comment: req.body.item_comment,
       status: req.body.status,
+      icon: req.body.icon,
     });
     await createDonation.save();
     res.json({ status: "ok", message: "donation successful" });
@@ -66,8 +67,7 @@ const updateDonation = async (req, res) => {
 
 // ===================== delete ====================== //;
 const deleteDonation = async (req, res) => {
-  const { id } = req.body;
-  await DonateItems.deleteOne({ id });
+  await DonateItems.deleteOne({ _id: req.params.donate_id });
   res.json({ status: "ok", message: "donation item deleted" });
 };
 
