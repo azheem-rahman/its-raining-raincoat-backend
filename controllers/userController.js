@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const Users = require("../models/Users");
 
@@ -10,8 +11,13 @@ const login = async (req, res) => {
       username: req.body.username.toLowerCase(),
     });
 
+    const result = await bcrypt.compare(req.body.password, found.password);
+
     if (found) {
-      if (found.password === req.body.password) {
+      // added in to compare bcrypt password instead
+      if (result) {
+        // if (found.password === req.body.password) {
+
         // create payload
         const payload = {
           id: found.account_id,
@@ -71,11 +77,14 @@ const create = async (req, res) => {
     if (found === null) {
       const newId = uuidv4();
 
+      // add in bcrypt to password when creating account
+      const password = await bcrypt.hash(req.body.password, 12);
+
       await Users.create(
         {
           account_id: newId,
           username: req.body.username.toLowerCase(),
-          password: req.body.password,
+          password: password,
           user_type: req.body.user_type,
         },
         (err, data) => {
