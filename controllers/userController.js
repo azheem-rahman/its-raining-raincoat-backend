@@ -98,18 +98,12 @@ const create = async (req, res) => {
         jwtid: uuidv4(),
       });
 
-      await Users.create(
-        {
-          account_id: newId,
-          username: req.body.username.toLowerCase(),
-          password: password,
-          user_type: req.body.user_type,
-        },
-        (err, data) => {
-          console.log("user created", data);
-          res.json({ status: "ok", message: "user created", id: newId });
-        }
-      );
+      await Users.create({
+        account_id: newId,
+        username: req.body.username.toLowerCase(),
+        password: password,
+        user_type: req.body.user_type,
+      });
 
       const response = {
         status: "ok",
@@ -119,7 +113,6 @@ const create = async (req, res) => {
         accessToken,
         refreshToken,
       };
-
       res.json(response);
     } else {
       res.json({ status: "error", message: "username taken" });
